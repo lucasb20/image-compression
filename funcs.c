@@ -19,7 +19,29 @@ void encoder(char* filename){
     free(des.Data);
 }
 
-void decoder(char* filename){}
+void decoder(char* filename){
+    FILE *file_ptr;
+    if(!(file_ptr = fopen(filename, "rb"))){
+        printf("Falha ao abrir o arquivo de bitstream.");
+        exit(1);
+    }
+    struct Image img;
+    fread(&(img.width), sizeof(int), 1, file_ptr);
+    fread(&(img.height), sizeof(int), 1, file_ptr);
+    int i = 0;
+    int count;
+    unsigned char key;
+    while(i < img.width * img.height){
+        fread(&count, sizeof(int), 1, file_ptr);
+        fread(&key, sizeof(unsigned char), 1, file_ptr);
+        count+=i;
+        while(i < count){
+            img.Data[i] = key;
+            i++;
+        }
+    }
+    writePGMImage(&img, "image.pgm");
+}
 
 int criterion(struct Image *img, int low_width, int high_width, int low_height, int high_height){
     int mean = 0;
@@ -69,6 +91,8 @@ void writeBitstream(struct Image *img, char* filename){
     }
     int n = img->width * img->height;
     int i = 0;
+    fwrite(&(img->width), sizeof(int), 1, file_ptr);
+    fwrite(&(img->height), sizeof(int), 1, file_ptr);
     while(i < n){
         unsigned char key = img->Data[i];
         int count = 1;
