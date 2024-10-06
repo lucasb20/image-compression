@@ -14,7 +14,7 @@ int criterion(struct Image img){
         var += dif*dif;
     }
     var /= img.height * img.width - 1;
-    return sqrt(var) < 10 ? 0 : var;
+    return sqrt(var) < 10 ? mean : 0;
 }
 
 void encoder(char* filename){}
