@@ -19,19 +19,23 @@ void encoder(char* filename){
 
 void decoder(char* filename){}
 
-int criterion(struct Image img){
+int criterion(struct Image *img, int low_width, int high_width, int low_height, int high_height){
     int mean = 0;
-    int n = img.height * img.width;
-    for (int i = 0; i < img.height * img.width; i++){
-        mean += img.Data[i];
+    int n = (high_height - low_height + 1) * (high_width - low_width + 1);
+    for (int i = low_height; i < high_height; i++){
+        for(int j = low_width; j < high_width; j++){
+            mean += img.Data[i + j*img->width];
+        }
     }
-    mean /= img.height * img.width;
+    mean /= n;
     int var = 0;
-    for (int i = 0; i < img.height * img.width; i++){
-        int dif = img.Data[i] - mean;
-        var += dif*dif;
+    for (int i = low_height; i < high_height; i++){
+        for(int j = low_width; j < high_width; j++){
+            int dif = img.Data[i + j*img->width] - mean;
+            var += dif*dif;
+        }
     }
-    var /= img.height * img.width - 1;
+    var /= n - 1;
     return sqrt(var) < 10 ? mean : 0;
 }
 
