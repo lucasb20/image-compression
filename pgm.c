@@ -3,7 +3,6 @@
 #include "lib/pgm.h"
 
 void readPGMImage(struct Image *img, char *filename) {
-
     FILE *fp;
     char ch;
 
@@ -14,13 +13,13 @@ void readPGMImage(struct Image *img, char *filename) {
 
     if ((ch = getc(fp)) != 'P') {
         puts("A imagem fornecida não está no formato pgm");
-        exit(2);
+        exit(1);
     }
 
     img->type = getc(fp);
     if (img->type != '2' && img->type != '5') {
         puts("Formato de imagem PGM não suportado.");
-        exit(2);
+        exit(1);
     }
 
     fseek(fp, 1, SEEK_CUR);
@@ -34,7 +33,7 @@ void readPGMImage(struct Image *img, char *filename) {
     fscanf(fp, "%d %d", &img->width, &img->height);
     if (ferror(fp)) {
         perror(NULL);
-        exit(3);
+        exit(1);
     }
     fscanf(fp, "%hhu", &img->maxval);
     fseek(fp, 1, SEEK_CUR);
@@ -42,7 +41,7 @@ void readPGMImage(struct Image *img, char *filename) {
     img->Data = (unsigned char *)malloc(img->width * img->height * sizeof(unsigned char));
     if (img->Data == NULL) {
         perror("Erro ao alocar memória.");
-        exit(4);
+        exit(1);
     }
 
     switch (img->type) {
