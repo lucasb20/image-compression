@@ -21,16 +21,16 @@ void decoder(char* filename){}
 
 int criterion(struct Image *img, int low_width, int high_width, int low_height, int high_height){
     int mean = 0;
-    int n = (high_height - low_height + 1) * (high_width - low_width + 1);
-    for (int i = low_height; i < high_height; i++){
-        for(int j = low_width; j < high_width; j++){
+    int n = (high_height - low_height) * (high_width - low_width);
+    for(int j = low_width; j < high_width; j++){
+        for (int i = low_height; i < high_height; i++){
             mean += img.Data[i + j*img->width];
         }
     }
     mean /= n;
     int var = 0;
-    for (int i = low_height; i < high_height; i++){
-        for(int j = low_width; j < high_width; j++){
+    for(int j = low_width; j < high_width; j++){
+        for (int i = low_height; i < high_height; i++){
             int dif = img.Data[i + j*img->width] - mean;
             var += dif*dif;
         }
@@ -39,5 +39,22 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
     return sqrt(var) < 10 ? mean : 0;
 }
 
-void divideByCriterion(struct Image *src, struct Image *des, int low_width, int high_width, int low_height, int high_height){};
+void divideByCriterion(struct Image *src, struct Image *des, int low_width, int high_width, int low_height, int high_height){
+    int c = criterion(src, low_width, high_width, low_height, high_height);
+    if(c != 0){
+        for(int j = low_width; j < high_width; j++){
+            for (int i = low_height; i < high_height; i++){
+                des.Data[i + j*des->width] = c;
+            }
+        }
+        return;
+    }
+    int mid_width = (high_width - low_width) / 2;
+    int mid_height = (high_height - low_height) / 2;
+    divideByCriterion(src, des, low_width, mid_width, low_height, mid_height);
+    divideByCriterion(src, des, mid_width, high_width, low_height, mid_height);
+    divideByCriterion(src, des, low_width, mid_width, mid_height, high_height);
+    divideByCriterion(src, des, mid_width, high_width, mid_height, high_height);
+};
+
 void writeBitstream(struct Image *img, char* filename){};
