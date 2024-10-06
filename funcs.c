@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <math.h>
 #include "lib/funcs.h"
 #include "lib/pgm.h"
@@ -55,6 +56,25 @@ void divideByCriterion(struct Image *src, struct Image *des, int low_width, int 
     divideByCriterion(src, des, mid_width, high_width, low_height, mid_height);
     divideByCriterion(src, des, low_width, mid_width, mid_height, high_height);
     divideByCriterion(src, des, mid_width, high_width, mid_height, high_height);
-};
+}
 
-void writeBitstream(struct Image *img, char* filename){};
+void writeBitstream(struct Image *img, char* filename){
+    FILE *file_ptr;
+    if(!(file_ptr = fopen(filename, "wb"))){
+        printf("Falha ao criar o arquivo de bitstream.");
+        exit(1);
+    }
+    int n = img->width * img->height;
+    int i = 0;
+    while(i < n){
+        unsigned char key = img->Data[i];
+        int count = 1;
+        i++;
+        while(i < n && img->Data[i] == key){
+            count++;
+            i++;
+        }
+        fwrite(&count, sizeof(int), 1, fp);
+        fwrite(&key, sizeof(unsigned char), 1, fp);
+    }
+}
