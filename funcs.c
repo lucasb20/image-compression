@@ -17,5 +17,5 @@ int criterion(struct Image img){
     return sqrt(var) < 10 ? 0 : var;
 }
 
-void encoder(){}
-void decoder(){}
+void encoder(char* filename){}
+void decoder(char* filename){}

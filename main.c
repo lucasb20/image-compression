@@ -5,7 +5,10 @@
 
 int main(int argc,char **argv){
     if(argc != 4){
-        printf("Formato: %s <num_op alg1 (1) ou alg2 (2)> <image> <directory>\n",*argv);
+        printf("Operações disponíveis:\n");
+        printf("%s 1 <image>\n", *argv);
+        printf("%s 2 <bitstream>\n", *argv);
+        printf("Obs:\n1 - Encoder\n2 - Decoder\n");
         exit(1);
     }
 
@@ -13,25 +16,25 @@ int main(int argc,char **argv){
 
     int op = atoi(*(argv+1));
     char *image = *(argv+2);
-    char *directory = *(argv+3);
 
+    double tempo_total;
     clock_t begin,end;
 
     switch(op){
         case 1:
             begin = clock();
-            alg1(image,directory);
+            encoder(image);
             end = clock();
-            double tempo_total = (double)(end - begin)/CLOCKS_PER_SEC;
-            printf("Tempo total: %lfs\n(%lf min)",tempo_total,tempo_total/60);
+            tempo_total = (double)(end - begin)/CLOCKS_PER_SEC;
+            printf("Tempo total: %lfs\n(%lf min)\n",tempo_total,tempo_total/60);
             break;
 
         case 2:
             begin = clock();
-            alg2(image,directory);
+            decoder(image);
             end = clock();
-            double tempo_total = (double)(end - begin)/CLOCKS_PER_SEC;
-            printf("Tempo total: %lfs\n(%lf min)",tempo_total,tempo_total/60);
+            tempo_total = (double)(end - begin)/CLOCKS_PER_SEC;
+            printf("Tempo total: %lfs\n(%lf min)\n",tempo_total,tempo_total/60);
             break;
     }
 

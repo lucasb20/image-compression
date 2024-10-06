@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
 
-SRCS = main.c pgm.c
+SRCS = main.c funcs.c pgm.c
 OBJS = $(SRCS:.c=.o)
 TARGET = app.out
 
