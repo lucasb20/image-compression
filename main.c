@@ -12,8 +12,6 @@ int main(int argc,char **argv){
         exit(1);
     }
 
-    srand(time(0));
-
     int op = atoi(*(argv+1));
     char *image = *(argv+2);
 

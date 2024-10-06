@@ -3,3 +3,5 @@
 int criterion(struct Image);
 void encoder(char*);
 void decoder(char*);
+void divideByCriterion(struct Image*, struct Image*, int, int, int, int);
+void writeBitstream(struct Image*, char*);
