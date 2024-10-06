@@ -29,6 +29,8 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
             mean += img->Data[i + j*img->width];
         }
     }
+    if(n == 1)
+        return mean;
     mean /= n;
     int var = 0;
     for(int j = low_width; j < high_width; j++){
@@ -51,8 +53,8 @@ void divideByCriterion(struct Image *src, struct Image *des, int low_width, int 
         }
         return;
     }
-    int mid_width = (high_width - low_width) / 2;
-    int mid_height = (high_height - low_height) / 2;
+    int mid_width = (high_width + low_width) / 2;
+    int mid_height = (high_height + low_height) / 2;
     divideByCriterion(src, des, low_width, mid_width, low_height, mid_height);
     divideByCriterion(src, des, mid_width, high_width, low_height, mid_height);
     divideByCriterion(src, des, low_width, mid_width, mid_height, high_height);
