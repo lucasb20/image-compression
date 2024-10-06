@@ -1,7 +1,8 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
+LDFLAGS = -lm
 
-SRCS = main.c funcs.c pgm.c
+SRCS = main.c pgm.c funcs.c
 OBJS = $(SRCS:.c=.o)
 TARGET = app.out
 
@@ -10,7 +11,7 @@ TARGET = app.out
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

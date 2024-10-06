@@ -1,5 +1,5 @@
 #include "lib/funcs.h"
-#include <math.c>
+#include <math.h>
 
 int criterion(struct Image img){
     int mean = 0;
