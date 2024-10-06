@@ -4,7 +4,7 @@
 #include "lib/funcs.h"
 
 int main(int argc,char **argv){
-    if(argc != 4){
+    if(argc != 3){
         printf("Operações disponíveis:\n");
         printf("%s 1 <image>\n", *argv);
         printf("%s 2 <bitstream>\n", *argv);

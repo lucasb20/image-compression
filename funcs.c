@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "lib/funcs.h"
 #include "lib/pgm.h"
@@ -25,14 +26,14 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
     int n = (high_height - low_height) * (high_width - low_width);
     for(int j = low_width; j < high_width; j++){
         for (int i = low_height; i < high_height; i++){
-            mean += img.Data[i + j*img->width];
+            mean += img->Data[i + j*img->width];
         }
     }
     mean /= n;
     int var = 0;
     for(int j = low_width; j < high_width; j++){
         for (int i = low_height; i < high_height; i++){
-            int dif = img.Data[i + j*img->width] - mean;
+            int dif = img->Data[i + j*img->width] - mean;
             var += dif*dif;
         }
     }
@@ -45,7 +46,7 @@ void divideByCriterion(struct Image *src, struct Image *des, int low_width, int 
     if(c != 0){
         for(int j = low_width; j < high_width; j++){
             for (int i = low_height; i < high_height; i++){
-                des.Data[i + j*des->width] = c;
+                des->Data[i + j*des->width] = c;
             }
         }
         return;
@@ -74,7 +75,7 @@ void writeBitstream(struct Image *img, char* filename){
             count++;
             i++;
         }
-        fwrite(&count, sizeof(int), 1, fp);
-        fwrite(&key, sizeof(unsigned char), 1, fp);
+        fwrite(&count, sizeof(int), 1, file_ptr);
+        fwrite(&key, sizeof(unsigned char), 1, file_ptr);
     }
 }
