@@ -9,8 +9,7 @@ void encoder(char* filename){
     readPGMImage(&src, filename);
     des.width = src.width;
     des.height = src.height;
-    des.maxval = src.maxval;
-    if (!(des.Data = (unsigned char *) calloc(des.width * des.height, sizeof(unsigned char)))){
+    if (!(des.Data = (unsigned char *) malloc(des.width * des.height * sizeof(unsigned char)))){
         printf("Falta de memória.\n");
         exit(1);
     }
@@ -50,6 +49,8 @@ void decoder(char* filename){
 int criterion(struct Image *img, int low_width, int high_width, int low_height, int high_height){
     int mean = 0;
     int n = (high_height - low_height) * (high_width - low_width);
+    if(n == 1)
+        return img->Data[low_width + low_height*img->width];
     for(int j = low_width; j < high_width; j++){
         for (int i = low_height; i < high_height; i++){
             mean += img->Data[i + j*img->width];
@@ -65,13 +66,13 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
             var += dif*dif;
         }
     }
-    var /= n - 1;
-    return sqrt(var) < 10 ? mean : 0;
+    return sqrt(var/(n - 1)) < 10 ? mean : -1;
 }
 
 void divideByCriterion(struct Image *src, struct Image *des, int low_width, int high_width, int low_height, int high_height){
     int c = criterion(src, low_width, high_width, low_height, high_height);
-    if(c != 0){
+    printf("c = %d\n", c);
+    if(c != -1){
         for(int j = low_width; j < high_width; j++){
             for (int i = low_height; i < high_height; i++){
                 des->Data[i + j*des->width] = c;
