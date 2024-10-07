@@ -28,6 +28,10 @@ void decoder(char* filename){
     struct Image img;
     fread(&(img.width), sizeof(int), 1, file_ptr);
     fread(&(img.height), sizeof(int), 1, file_ptr);
+    if(!(img.Data = (unsigned char *) malloc(img.width * img.height * sizeof(unsigned char)))){
+        printf("Falta de memória.\n");
+        exit(1);
+    }
     int i = 0;
     int count;
     unsigned char key;
