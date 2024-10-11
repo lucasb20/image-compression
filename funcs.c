@@ -44,6 +44,7 @@ void decoder(char* filename){
         }
     }
     writePGMImage(&img, "image.pgm");
+    fclose(file_ptr);
 }
 
 int criterion(struct Image *img, int low_width, int high_width, int low_height, int high_height){
@@ -71,7 +72,6 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
 
 void divideByCriterion(struct Image *src, struct Image *des, int low_width, int high_width, int low_height, int high_height){
     int c = criterion(src, low_width, high_width, low_height, high_height);
-    printf("c = %d\n", c);
     if(c != -1){
         for(int j = low_width; j < high_width; j++){
             for (int i = low_height; i < high_height; i++){
@@ -109,4 +109,5 @@ void writeBitstream(struct Image *img, char* filename){
         fwrite(&count, sizeof(int), 1, file_ptr);
         fwrite(&key, sizeof(unsigned char), 1, file_ptr);
     }
+    fclose(file_ptr);
 }
