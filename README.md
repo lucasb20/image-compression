@@ -5,6 +5,8 @@ Aplicativo de compressão de imagens em C.
 
 Aplicação de compressão de imagens baseado em decomposição de blocos quadrados. Uma imagem em escala de cinza inserida na entrada do codificador é transformada em uma representação comprimida para um arquivo de bitstream, visando a redução do tamanho da imagem. Também há um algoritmo de decodificação, em que um bitstream é inserido na entrada e sua imagem é reconstruída a partir dele.
 
+Obs: Foi utilizado desvio padrão como critério de homogeneidade em um bloco.
+
 ## Estrutura do Projeto
 
 O projeto está organizado da seguinte forma:
