@@ -25,6 +25,7 @@ void decoder(char* filename){
         exit(1);
     }
     struct Image img;
+    img.maxval = 255;
     fread(&(img.width), sizeof(int), 1, file_ptr);
     fread(&(img.height), sizeof(int), 1, file_ptr);
     if(!(img.Data = (unsigned char *) malloc(img.width * img.height * sizeof(unsigned char)))){
@@ -57,8 +58,6 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
             mean += img->Data[i + j*img->width];
         }
     }
-    if(n == 1)
-        return mean;
     mean /= n;
     int var = 0;
     for(int j = low_width; j < high_width; j++){
@@ -67,7 +66,7 @@ int criterion(struct Image *img, int low_width, int high_width, int low_height, 
             var += dif*dif;
         }
     }
-    return sqrt(var/(n - 1)) < 10 ? mean : -1;
+    return sqrt(var/(n - 1)) < 25.5 ? mean : -1;
 }
 
 void divideByCriterion(struct Image *src, struct Image *des, int low_width, int high_width, int low_height, int high_height){
