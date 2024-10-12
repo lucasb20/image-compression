@@ -30,4 +30,8 @@ Para utilizar o projeto, siga estas etapas:
 
 ## Eficiência dos Algoritmos
 
-...
+Em questão de tempo de execução, não há algo interessante a se medir. Apesar do algoritmo de compressão possuir uma complexidade de tempo exponencial de acordo com o tamanho da entrada, o critério de homogeneidade reduz o número de chamadas. Por conta disso, o tempo de execução, tanto do algoritmo de compressão quanto do decodificador, é de muito menos que um segundo.
+
+Para avaliar a eficiência dos algoritmos, apliquei o codificador nas imagens da pasta 'outros', comparei cada uma com o tamanho do bitstream e calculei o erro médio quadrático da imagem reconstruída para a original, a fim de verificar a qualidade.
+
+A média da redução de tamanho da imagem para o bitstream foi de 50.45%, e a média do erro médio quadrático entre uma imagem original e a imagem reconstruída foi de 6.95%.
